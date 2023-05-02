@@ -8,7 +8,7 @@
     	Cookie nameCoo = new Cookie("name_cookie", "홍길동");	
     	
     	//2. 쿠키 클래스의 setter 메서드로 쿠키의 속성을 설정.
-    	nameCoo.setMaxAge(60 * 60); //쿠키의 유효시간 설정(초): 1시간->60 * 60 
+    	nameCoo.setMaxAge(60 * 60); //쿠키의 유효시간 설정(초): 1시간-> 60 * 60 
     	idCoo.setMaxAge(20);
     	
     	//3. http 응답 시 response 객체에 생성된 쿠키를 탑재해서 클라이언트로 전송.
