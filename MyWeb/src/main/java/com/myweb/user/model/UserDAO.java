@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 //DAO(Data Access Object)
@@ -68,5 +69,90 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public int userCheck(String id, String pw) {
+		int check = 0;
+		String sql = "SELECT user_pw FROM my_user WHERE user_id=?";
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				String dbPw = rs.getString("user_pw");
+				if (dbPw.equals(pw)) {
+					check = 1;
+				} else check = 0;
+			} else {
+				check = -1;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return check;
+	}
+
+	public UserVO getUserInfo(String id) {
+
+		UserVO user = null;
+		String sql = "SELECT * FROM my_user WHERE user_id='" + id + "'";
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
+			if(rs.next()) {
+				user = new UserVO(
+						rs.getString("user_id"),
+						rs.getString("user_pw"),
+						rs.getString("user_name"),
+						rs.getString("user_email"),
+						rs.getString("user_address")
+						);
+			}
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		}
+		return user;
+	}
+
+	public void changePassword(String id, String new_pw) {
+
+		String sql = "UPDATE my_user SET user_pw=? WHERE user_id=?";
+		
+		try(Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, new_pw);
+			pstmt.setString(2, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+//	public int userCheck(String id, String pw, String old_pw) {
+//		String sql = "SELECT id FROM my_user WHERE pw'" + old_pw + "'";
+//		UserVO user = null;
+//		try (Connection conn = ds.getConnection();
+//				PreparedStatement pstmt = conn.prepareStatement(sql);
+//				ResultSet rs = pstmt.executeQuery()){
+//			if(rs.next()) {
+//				user = new UserVO(
+//						rs.getString("user_id"),
+//						rs.getString("user_pw"),
+//						rs.getString("user_name"),
+//						rs.getString("user_email"),
+//						rs.getString("user_address")
+//						);
+//			}
+//		} catch (Exception e) {
+//			
+//		}
+//		return 0;
+//	}
+
 }
+
+
+
+
