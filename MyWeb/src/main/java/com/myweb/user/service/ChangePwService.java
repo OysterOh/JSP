@@ -31,12 +31,19 @@ public class ChangePwService implements IUserService {
 		
 		HttpSession session = request.getSession();
 		UserVO vo = (UserVO) session.getAttribute("user");
+		//getAttribute의 return 타입이 object라서 UserVO로 형변환
 		String id = vo.getUserId();
+		
+//		String id = ((UserVO)request.getSession()
+//									.getAttribute("user"))
+//									.getUserId();		
 		
 		String htmlCode;
 		UserDAO dao = UserDAO.getInstance();
+		//getInstance 주소값 받아오기
 		int result = dao.userCheck(id, old_pw);
-		PrintWriter out;
+		PrintWriter out = null;
+//		PrintWriter out = response.getWriter(); 한번에
 		try {
 			out = response.getWriter();
 			if(result == 1) {
@@ -44,24 +51,27 @@ public class ChangePwService implements IUserService {
 				
 				dao.changePassword(id, new_pw);
 				htmlCode = "<script>\r\n"
-						+ "alert('비밀번호 일치');\r\n"
+						+ "alert('비밀번호 변경 완료');\r\n"
 						+ "location.href='/MyWeb/myPage.user';\r\n"
 						+ "</script>";
 				out.print(htmlCode);
 				out.flush();
-				out.close();
+				
 			} else {
 				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 				htmlCode = "<script>\r\n"
                         + "alert('비밀번호 불일치');\r\n"
                         + "history.back();\r\n"
+                        //뒤로 가기
                         + "</script>";
 				out.print(htmlCode);
 				out.flush();
-				out.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			out.close();
+			
 		}
 	}
 
