@@ -91,7 +91,7 @@ public class BoardVO {
 	public String toString() {
 		return "BoardVO [boardId=" + boardId + ", writer=" + writer + ", title=" + title + ", content=" + content
 				+ ", regDate=" + regDate + ", hit=" + hit + "]";
-	}
 	
+	}
 	
 }
