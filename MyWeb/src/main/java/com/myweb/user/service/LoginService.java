@@ -38,6 +38,7 @@ public class LoginService implements IUserService {
 		
 		int result = dao.userCheck(id,pw);
 		PrintWriter out;
+		//PrintWriter 클래스는 기본 데이터형이나 객체를 쓰기 위한 클래스다.
 		try {
 			out = response.getWriter();
 			if (result == -1) {

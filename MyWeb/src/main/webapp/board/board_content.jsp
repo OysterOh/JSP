@@ -71,12 +71,12 @@
                         <div class="row">
                             <div class="col-md-offset-1 col-md-5">
                                 <p class="last-update">
-                                  <fmt:parseDate value="${content.regDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
-							<fmt:formatDate value="${parsedDateTime}" pattern="yy/MM/dd HH:MM" />						
+                                	<fmt:parseDate value="${content.regDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDateTime" type="both" />
+									<fmt:formatDate value="${parsedDateTime}" pattern="yy/MM/dd HH:MM" />						
                                 </p>
                             </div>
                             <div class="btn-group col-md-offset-1 col-md-5">
-                                <a class="btn btn-info" href="/MyWeb/list.board">목록 보기</a>
+                                <a class="btn btn-info" href="/MyWeb/list.board?page=${param.page}&cpp=${param.cpp}">목록 보기</a>
                                 <c:choose>
                                         <c:when test="${user.userId == content.writer}">
                                         <a class="btn btn-primary" href="/MyWeb/modify.board?bId=${content.boardId}">수정하기</a>
